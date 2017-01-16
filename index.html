@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport'
+          content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'/>
+    <title>你有一通来自姚晨的视频电话</title>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #facebox {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #threepage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        #face {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #three {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #videobox {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        #myvideo {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        #dianhua {
+            position: absolute;
+            width: 7%;
+            top: 87%;
+            left: 77%;
+            animation: rotatecb 0.7s linear 0s infinite alternate;
+            -webkit-animation: rotatecb 0.7s linear 0s infinite alternate
+        }
+
+        #faceBtn1 {
+            position: absolute;
+            top: 80%;
+            left: 69%;
+            background: rgba(0, 0, 0, 0);
+            width: 23.4%;
+            height: 14%;
+        }
+
+        #faceBtn2 {
+            position: absolute;
+            top: 80%;
+            left: 8%;
+            background: rgba(0, 0, 0, 0);
+            width: 23.4%;
+            height: 14%;
+        }
+
+        #endBtn {
+            position: absolute;
+            top: 79%;
+            left: 27%;
+            background: rgba(0, 0, 0, 0);
+            width: 45.4%;
+            height: 11%;
+        }
+
+        #share {
+            display: none;
+            position: absolute;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.92);
+        }
+
+        #tip {
+            position: absolute;
+            width: 5%;
+            top: 4%;
+            right: 2%;
+            animation: updown 1s ease-in-out 0s infinite alternate;
+            -webkit-animation: updown 1s ease-in-out 0s infinite alternate
+        }
+
+        #content {
+            position: absolute;
+            width: 86%;
+            top: 9%;
+            left: 50%;
+            margin-left: -43%;
+        }
+
+        @keyframes rotatecb {
+            from {
+                transform: rotate(-15deg);
+
+            }
+            to {
+                transform: rotate(15deg);
+
+            }
+        }
+
+        @-webkit-keyframes rotatecb {
+            from {
+                -webkit-transform: rotate(-15deg);
+
+            }
+            to {
+                -webkit-transform: rotate(15deg);
+
+            }
+        }
+
+        @keyframes updown {
+            from {
+                transform: translate3d(0px, -5px, 0)
+            }
+            to {
+                transform: translate3d(0px, 5px, 0)
+            }
+        }
+
+        @-webkit-keyframes updown {
+            from {
+                -webkit-transform: translate3d(0px, -5px, 0)
+            }
+            to {
+                -webkit-transform: translate3d(0px, 5px, 0)
+            }
+        }
+
+    </style>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="base-loading.js"></script>
+</head>
+<body>
+<div id="facebox">
+    <image src="face.png" id="face"></image>
+    <img src="dianhua.png" id="dianhua">
+
+    <audio src="yinxiao.mp3" autoplay="autoplay" loop="loop" id="audio"></audio>
+    <div id="faceBtn1"></div>
+    <div id="faceBtn2"></div>
+</div>
+<div id="videobox">
+    <video id="myvideo" src="video.mp4" webkit-playsinline="true" playsinline x5-video-player-type="h5"
+           x5-video-player-fullscreen="true"></video>
+</div>
+<div id="threepage">
+    <image src="three.png" id="three"></image>
+    <div id="endBtn"></div>
+
+</div>
+<div id="share">
+    <img src="content.png" id="content">
+    <img src="tip.png" id="tip">
+</div>
+<script>
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    var facebox = document.getElementById("facebox");
+    var videobox = document.getElementById("videobox");
+    var myvideo = document.getElementById("myvideo");
+    var threepage = document.getElementById("threepage");
+    var audio = document.getElementById("audio");
+    var jieting = document.getElementById("faceBtn1");
+    var guaduan = document.getElementById("faceBtn2");
+    var endBtn = document.getElementById("endBtn");
+    var sharePage = document.getElementById("share")
+
+
+    if (!isiOS) {
+        myvideo.src = "videoandroid.mp4";
+    }
+
+    $('#share').height($(window).height());
+    endBtn.addEventListener("click", function () {
+        sharePage.style.display = "block";
+    });
+
+    jieting.addEventListener("click", function () {
+        facebox.style.display = "none";
+        videobox.style.display = "block";
+        audio.pause();
+        myvideo.play();
+    });
+
+    guaduan.addEventListener("click", function () {
+        audio.pause();
+        facebox.style.display = "none";
+        threepage.style.display = "block";
+    })
+
+    myvideo.addEventListener("ended", function (e) {
+        myvideo.pause();
+        videobox.style.display = "none";
+        threepage.style.display = "block";
+    }, false);
+
+    document.addEventListener("WeixinJSBridgeReady", function () {
+        audio.play();
+    }, false);
+
+
+
+
+    window.onresize = function () {
+        myvideo.style.width = window.innerWidth + "px";
+        myvideo.style.height = window.innerHeight + "px";
+        videobox.style.width = window.innerWidth + "px";
+        videobox.style.height = window.innerHeight + "px";
+    }
+
+    $.getJSON("http://demo.ileou.com/newello/index.php/Thirdpart/Index/getWeixinAuthor", function (n) {
+        if ("" != n.appid) {
+            var e = n;
+            wx.config({
+                debug: !1,
+                appId: e.appid,
+                timestamp: e.timestamp,
+                nonceStr: e.noncestr,
+                signature: e.signature,
+                jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo"]
+            }), wx.ready(function () {
+                console.log("微信分享")
+                setsharemsg()
+            })
+        }
+    });
+
+    var shareobj = {
+        'title': "我刚接了个姚晨的视频电话…",
+        'desc': "",
+        'link': "demo.ileou.com/videofalse",
+        'imgUrl': "http://demo.ileou.com/videofalse/shareimg.png"
+    };
+    function setsharemsg() {
+        console.log(shareobj),
+                wx.onMenuShareTimeline({
+                    title: shareobj.title,
+                    desc: shareobj.desc,
+                    link: shareobj.link,
+                    imgUrl: shareobj.imgUrl,
+                    success: function () {
+                    },
+                    cancel: function () {
+                    }
+                }), wx.onMenuShareAppMessage({
+            title: shareobj.title,
+            desc: shareobj.desc,
+            link: shareobj.link,
+            imgUrl: shareobj.imgUrl,
+            success: function () {
+                console.log("微信分享成功")
+            },
+            cancel: function () {
+            }
+        })
+    }
+
+    window.onload= function () {
+        document.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+        }, false);
+    }
+
+</script>
+</body>
+</html>
